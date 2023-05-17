@@ -68,61 +68,59 @@ if (answers.menu === "Add department") {
     promptManager();
   });
 }
+if (answers.menu === "Add role") {
+  // const sql = `SELECT * FROM role`;
+  const answers = await inquirer.prompt([
+    {
+      type: "input",
+      name: "newRole",
+      message: "What is the new role?"
+    }
+  ])
+  db.query(`INSERT INTO role (title, salary, department_id) VALUES (?)`, [answers.newRole] , (err, result) => {
+    if (err) throw err
+    console.table (result)
+    promptManager();
+  });
+}
+if (answers.menu === "Add employee") {
+  // const sql = `SELECT * FROM role`;
+  const answers = await inquirer.prompt([
+    {
+      type: "input",
+      name: "newEmployee",
+      message: "What is the new employee?"
+    }
+  ])
+  db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?)`, [answers.newEmployee] , (err, result) => {
+    if (err) throw err
+    console.table (result)
+    promptManager();
+  });
+}
 
-  // const sql = `SELECT * FROM department`;
-
-  // db.query(`SELECT * FROM department`, (err, result) => {
-  //   if (err) throw err
-  //   console.table (result)
-  //   promptManager();
-  // });
+if (answers.menu === "Update an employees' role") {
+  const answers = await inquirer.prompt([
+    {
+      type: "input",
+      name: "updateEmployee",
+      message: "What is the employees' ID?"
+    },
+    {
+      type: "input",
+      name: "updateRole",
+      message: "What is the role ID?"
+    }
+  ])
+  db.query(`UPDATE employee SET role_id = ? WHERE id = ?` , [answers.updateRole, answers.updateEmployee] ,  (err, result) => {
+    if (err) throw err
+    console.table (result)
+    promptManager();
+  }) 
+}
 }
 
 db.connect(err => {
   if (err) throw err
   promptManager();
 })
-
-
-  //   {
-  //     type: "input",
-  //     name: "allDepartments",
-  //     message: "View all departments",
-  //     validate: (answer) => answer !== "",
-  //   },
-  //   {
-  //     type: "input",
-  //     name: "allRoles",
-  //     message: "View all roles",
-  //     validate: (answer) => answer !== "",
-  //   },
-  //   {
-  //     type: "input",
-  //     name: "allEmployees",
-  //     message: "View all employees",
-  //     validate: (answer) => answer !== "",
-  //   },
-  //   {
-  //     type: "input",
-  //     name: "addDepartment",
-  //     message: "Add department",
-  //     validate: (answer) => answer !== "",
-  //   },
-  //   {
-  //     type: "input",
-  //     name: "addRole",
-  //     message: "Add role",
-  //     validate: (answer) => answer !== "",
-  //   },
-  //   {
-  //     type: "input",
-  //     name: "addEmployee",
-  //     message: "Add employee",
-  //     validate: (answer) => answer !== "",
-  //   },
-  //   {
-  //     type: "input",
-  //     name: "updateRole",
-  //     message: "Update an employees' role",
-  //     validate: (answer) => answer !== "",
-  //   },
