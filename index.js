@@ -68,6 +68,7 @@ if (answers.menu === "Add department") {
     promptManager();
   });
 }
+
 if (answers.menu === "Add role") {
   // const sql = `SELECT * FROM role`;
   const answers = await inquirer.prompt([
@@ -75,24 +76,50 @@ if (answers.menu === "Add role") {
       type: "input",
       name: "newRole",
       message: "What is the new role?"
+    },
+    {
+      type: "input",
+      name: "newSalary",
+      message: "What is the salary?"
+    },
+    {
+      type: "input",
+      name: "newDepartID",
+      message: "What is the department ID?"
     }
   ])
-  db.query(`INSERT INTO role (title, salary, department_id) VALUES (?)`, [answers.newRole] , (err, result) => {
+  db.query(`INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`, [answers.newRole, answers.newSalary, answers.newDepartID] , (err, result) => {
     if (err) throw err
     console.table (result)
     promptManager();
   });
 }
+
 if (answers.menu === "Add employee") {
   // const sql = `SELECT * FROM role`;
   const answers = await inquirer.prompt([
     {
       type: "input",
-      name: "newEmployee",
-      message: "What is the new employee?"
+      name: "firstName",
+      message: "What is the new employees' first name?"
+    },
+    {
+      type: "input",
+      name: "lastName",
+      message: "What is the new employees' last name?"
+    },
+    {
+      type: "input",
+      name: "newRole",
+      message: "What is the new employees' role ID?"
+    },
+    {
+      type: "input",
+      name: "managerID",
+      message: "What is the new employees' manager ID?"
     }
   ])
-  db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?)`, [answers.newEmployee] , (err, result) => {
+  db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`, [answers.firstName, answers.lastName, answers.newRole, answers.managerID] , (err, result) => {
     if (err) throw err
     console.table (result)
     promptManager();
